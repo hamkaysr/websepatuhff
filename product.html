@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Halaman Produk</title>
+</head>
+<body>
+  <h1>Daftar Produk</h1>
+  <div id="productContainer"></div>
+
+  <script>
+    // Fungsi untuk mendapatkan parameter pencarian dari URL
+    function getQueryParameter(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    // Ambil kata kunci pencarian
+    const searchQuery = getQueryParameter("search");
+
+    // Tampilkan hasil pencarian
+    if (searchQuery) {
+      document.body.insertAdjacentHTML('afterbegin', `<h2>Hasil pencarian: "${searchQuery}"</h2>`);
+
+      // Daftar produk
+      const products = [
+        { name: "Adidas-Grey", image: "img/sepatu1.png" },
+        { name: "Puma Red", image: "puma-red.jpg" },
+        { name: "Vans Blue", image: "vans-blue.jpg" },
+      ];
+
+      // Filter produk berdasarkan kata kunci
+      const filteredProducts = products.filter((product) =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+
+      // Tampilkan produk yang sesuai
+      const productContainer = document.getElementById("productContainer");
+      if (filteredProducts.length > 0) {
+        filteredProducts.forEach((product) => {
+          productContainer.innerHTML += `
+            <div>
+              <img src="${product.image}" alt="${product.name}" style="width: 150px;">
+              <p>${product.name}</p>
+            </div>
+          `;
+        });
+      } else {
+        productContainer.innerHTML = "<p>Produk tidak ditemukan</p>";
+      }
+    } else {
+      document.getElementById("productContainer").innerHTML = "<p>Tidak ada kata kunci pencarian</p>";
+    }
+  </script>
+</body>
+</html>
+
